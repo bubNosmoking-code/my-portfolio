@@ -365,6 +365,7 @@ export default function Home() {
                 </article>
                 </Link>
 
+                 <Link href="/projects/contentflow">
                  <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                     <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
                          <span className="font-mono-data text-neutral-400">PROJECT 03</span>
@@ -376,7 +377,9 @@ export default function Home() {
                     <p className="font-body text-neutral-600 line-clamp-3 mb-4">用 AI 重构社媒运营工作流：从竞品监控、内容选题到多平台发布，将原本需要 3 人团队的工作压缩为单人可执行的半自动化流程。</p>
                     <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">View Case Study &rarr;</span>
                 </article>
+                </Link>  
 
+                <Link href="/projects/campaign-decoder">
                 <article className="group border-b border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                     <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
                          <span className="font-mono-data text-neutral-400">PROJECT 04</span>
@@ -388,6 +391,7 @@ export default function Home() {
                     <p className="font-body text-neutral-600 line-clamp-3 mb-4">AI 写作助手，模仿 20 世纪新闻通讯社的口吻进行创作，强调客观与力度。为出海品牌提供符合海外语境的内容生产能力。</p>
                     <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">View Case Study &rarr;</span>
                 </article>
+                </Link>
             </div>
         </section>
 
