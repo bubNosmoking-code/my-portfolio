@@ -351,6 +351,7 @@ export default function Home() {
                     </article>
                 </Link>
 
+                <Link href="/projects/overseas-case">
                 <article className="group border-b border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                     <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
                          <span className="font-mono-data text-neutral-400">PROJECT 02</span>
@@ -362,6 +363,7 @@ export default function Home() {
                     <p className="font-body text-neutral-600 line-clamp-3 mb-4">从零到一操盘跨境独立站出海项目。负责 Shopify 建站、Facebook/TikTok 广告投放策略、海外内容账号冷启动，完整经历跨境品牌从0到稳定盈利的全链路。</p>
                     <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">View Case Study &rarr;</span>
                 </article>
+                </Link>
 
                  <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                     <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
