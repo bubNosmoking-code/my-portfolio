@@ -337,9 +337,23 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-2">
                 <Link href="/projects/fitness-agent">
                     <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
-                        <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
-                            <span className="font-mono-data text-neutral-400">PROJECT 01</span>
-                        </div>
+                        <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
+    <div className="absolute inset-0 bg-[#111111] transition-opacity duration-500 group-hover:opacity-0">
+        <span className="absolute left-5 bottom-2 font-headline text-[6rem] font-black leading-none text-white/[0.06] select-none" style={{fontFamily:"'Playfair Display',serif"}}>IP</span>
+        <div className="absolute right-5 top-5 w-14 h-14 border border-white/20 rotate-45" />
+        <div className="absolute right-8 top-8 w-6 h-6 bg-[#CC0000]/90" />
+        <div className="absolute left-5 top-5 font-mono-data text-[9px] text-white/25 tracking-widest uppercase">Iron Press · 01</div>
+        <div className="absolute bottom-5 right-5 font-mono-data text-[9px] text-[#CC0000] tracking-widest">AGENT</div>
+        <div className="absolute left-5 top-1/2 -translate-y-1/2 flex flex-col gap-1.5">
+            {[80,55,95,40,70].map((w,i) => (
+                <div key={i} style={{width:w}} className="h-px bg-white/[0.12]" />
+            ))}
+        </div>
+    </div>
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <img src="/images/cover-ironpress.png" className="w-full h-full object-cover" />
+    </div>
+</div>
                         <div className="flex justify-between items-baseline mb-2">
                             <h3 className="font-headline text-2xl font-bold group-hover:underline decoration-2 decoration-[#CC0000] underline-offset-4">Iron Press</h3>
                             <span className="font-mono-data text-xs border border-black px-1 rounded-none">AGENT</span>
@@ -353,9 +367,23 @@ export default function Home() {
 
                 <Link href="/projects/overseas-case">
                 <article className="group border-b border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
-                    <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
-                         <span className="font-mono-data text-neutral-400">PROJECT 02</span>
-                    </div>
+                    <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
+    <div className="absolute inset-0 bg-[#F9F9F7] transition-opacity duration-500 group-hover:opacity-0">
+        <span className="absolute right-2 top-0 font-headline text-[6.5rem] font-black leading-none text-black/[0.04] select-none" style={{fontFamily:"'Playfair Display',serif"}}>出海</span>
+        <div className="absolute left-5 top-5 font-mono-data text-[9px] text-black/25 tracking-widest uppercase">Overseas · 02</div>
+        <div className="absolute bottom-5 right-5 font-mono-data text-[9px] text-[#CC0000] tracking-widest">BRAND BUILDING</div>
+        <div className="absolute left-5 bottom-5 flex gap-2 items-end">
+            <div className="w-7 h-7 bg-[#111111]" />
+            <div className="w-7 h-7 border border-black/40" />
+            <div className="w-7 h-7 bg-[#CC0000]" />
+        </div>
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 font-headline text-5xl font-black italic text-black/[0.06]" style={{fontFamily:"'Playfair Display',serif"}}>02</div>
+        <div className="absolute left-5 top-1/2 -translate-y-1/2 w-px h-12 bg-black/10" />
+    </div>
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <img src="/images/cover-overseas.png" className="w-full h-full object-cover" />
+    </div>
+</div>
                     <div className="flex justify-between items-baseline mb-2">
                         <h3 className="font-headline text-2xl font-bold group-hover:underline decoration-2 decoration-[#CC0000] underline-offset-4">出海实战案例</h3>
                         <span className="font-mono-data text-xs border border-black px-1 rounded-none">BRAND BUILDING</span>
@@ -367,9 +395,23 @@ export default function Home() {
 
                  <Link href="/projects/contentflow">
                  <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
-                    <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
-                         <span className="font-mono-data text-neutral-400">PROJECT 03</span>
-                    </div>
+                    <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
+    <div className="absolute inset-0 bg-[#111111] transition-opacity duration-500 group-hover:opacity-0">
+        <span className="absolute right-3 bottom-0 font-headline text-[6rem] font-black leading-none text-white/[0.06] select-none" style={{fontFamily:"'Playfair Display',serif"}}>CF</span>
+        <div className="absolute left-5 top-5 font-mono-data text-[9px] text-white/25 tracking-widest uppercase">ContentFlow · 03</div>
+        <div className="absolute bottom-5 right-5 font-mono-data text-[9px] text-[#CC0000] tracking-widest">AUTOMATION</div>
+        <div className="absolute left-5 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+            {[55,100,35,75,55,88].map((w,i) => (
+                <div key={i} style={{width:w}} className={`h-[3px] ${i===1 ? "bg-[#CC0000]" : "bg-white/15"}`} />
+            ))}
+        </div>
+        <div className="absolute right-7 top-1/2 -translate-y-1/2 w-px h-14 bg-white/10" />
+        <div className="absolute right-5 top-5 font-mono-data text-[9px] text-white/15">■ ■ □</div>
+    </div>
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <img src="/images/cover-contentflow.png" className="w-full h-full object-cover" />
+    </div>
+</div>
                     <div className="flex justify-between items-baseline mb-2">
                         <h3 className="font-headline text-2xl font-bold group-hover:underline decoration-2 decoration-[#CC0000] underline-offset-4">ContentFlow</h3>
                         <span className="font-mono-data text-xs border border-black px-1 rounded-none">AUTOMATION</span>
@@ -381,9 +423,23 @@ export default function Home() {
 
                 <Link href="/projects/campaign-decoder">
                 <article className="group border-b border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
-                    <div className="w-full h-48 border border-black bg-neutral-200 mb-6 overflow-hidden relative flex items-center justify-center">
-                         <span className="font-mono-data text-neutral-400">PROJECT 04</span>
-                    </div>
+                   <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
+    <div className="absolute inset-0 bg-[#F9F9F7] transition-opacity duration-500 group-hover:opacity-0">
+        <div className="absolute inset-0" style={{backgroundImage:"repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(17,17,17,0.025) 10px,rgba(17,17,17,0.025) 11px)"}} />
+        <span className="absolute left-3 top-0 font-headline text-[7rem] font-black leading-none text-black/[0.04] select-none" style={{fontFamily:"'Playfair Display',serif"}}>D.</span>
+        <div className="absolute left-5 top-5 font-mono-data text-[9px] text-black/25 tracking-widest uppercase">Dissect · 04</div>
+        <div className="absolute bottom-5 right-5 font-mono-data text-[9px] text-[#CC0000] tracking-widest">DECODER</div>
+        <div className="absolute bottom-5 left-5 flex items-center gap-2">
+            <div className="w-2.5 h-2.5 bg-[#CC0000]" />
+            <div className="w-14 h-px bg-black/15" />
+            <div className="w-2 h-2 border border-black/20 rotate-45" />
+        </div>
+        <div className="absolute right-6 top-1/2 -translate-y-1/2 font-headline text-xl font-black italic text-black/[0.08] tracking-wider" style={{fontFamily:"'Playfair Display',serif"}}>DECODE<br/>REBUILD<br/>REPEAT</div>
+    </div>
+    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+        <img src="/images/cover-dissect.png" className="w-full h-full object-cover" />
+    </div>
+</div>
                     <div className="flex justify-between items-baseline mb-2">
                         <h3 className="font-headline text-2xl font-bold group-hover:underline decoration-2 decoration-[#CC0000] underline-offset-4">InkFlow</h3>
                         <span className="font-mono-data text-xs border border-black px-1 rounded-none">AGENT</span>
@@ -395,50 +451,55 @@ export default function Home() {
             </div>
         </section>
 
-        {/* Gallery Section */}
-        <section id="gallery" className="border-b border-black bg-white">
-            <div className="p-4 border-b border-black bg-neutral-50 flex justify-between items-center">
-                <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Visual Archives / 影像存档</h2>
-                <span className="font-mono-data text-[10px] text-neutral-400 italic">TYPE: 35MM SILVER GELATIN PRINT</span>
+{/* Gallery Section */}
+<section id="gallery" className="border-b border-black bg-white">
+    <div className="p-4 border-b border-black bg-neutral-50 flex justify-between items-center">
+        <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Visual Archives / 影像存档</h2>
+        <span className="font-mono-data text-[10px] text-neutral-400 italic">TYPE: 35MM SILVER GELATIN PRINT</span>
+    </div>
+
+    <div className="grid grid-cols-2 md:grid-cols-4 border-black">
+        <div className="col-span-2 row-span-2 border-r border-b border-black group overflow-hidden relative">
+            <div className="absolute top-4 left-4 z-10 font-mono-data text-[10px] bg-black text-white px-2 py-1">PLATE NO. 01</div>
+            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000" 
+                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
+            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:4px_4px]"></div>
+            <Link href="/projects/darkroom" className="absolute inset-0 z-20">
+                <div className="absolute bottom-4 right-4 font-mono-data text-[10px] bg-black text-white px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    Open Darkroom →
+                </div>
+            </Link>
+        </div>
+
+        <div className="col-span-1 border-r border-b border-black group overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800" 
+                 className="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+            <div className="absolute bottom-0 left-0 w-full p-2 bg-white/90 border-t border-black translate-y-full group-hover:translate-y-0 transition-transform">
+                <p className="font-mono-data text-[9px] uppercase">Composition Study</p>
             </div>
+        </div>
 
-            <div className="grid grid-cols-2 md:grid-cols-4 border-black">
-                <div className="col-span-2 row-span-2 border-r border-b border-black group overflow-hidden relative">
-                    <div className="absolute top-4 left-4 z-10 font-mono-data text-[10px] bg-black text-white px-2 py-1">PLATE NO. 01</div>
-                    <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000" 
-                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
-                    <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:4px_4px]"></div>
-                </div>
+        <div className="col-span-1 border-b border-black group overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1515462277126-2dd0c162007a?q=80&w=800" 
+                 className="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+        </div>
 
-                <div className="col-span-1 border-r border-b border-black group overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800" 
-                         className="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-                    <div className="absolute bottom-0 left-0 w-full p-2 bg-white/90 border-t border-black translate-y-full group-hover:translate-y-0 transition-transform">
-                        <p className="font-mono-data text-[9px] uppercase">Composition Study</p>
-                    </div>
-                </div>
+        <div className="col-span-2 border-b border-black group overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000" 
+                 className="w-full h-64 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+            <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(0deg,transparent_1px,#000_1px)] [background-size:100%_3px]"></div>
+        </div>
 
-                <div className="col-span-1 border-b border-black group overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1515462277126-2dd0c162007a?q=80&w=800" 
-                         className="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-                </div>
+        <div className="col-span-1 border-r border-black p-4 flex flex-col justify-center bg-black text-white">
+            <p className="font-headline text-xl leading-tight italic">"The camera is an instrument that teaches people how to see without a camera."</p>
+        </div>
 
-                <div className="col-span-2 border-b border-black group overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000" 
-                         className="w-full h-64 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-                    <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(0deg,transparent_1px,#000_1px)] [background-size:100%_3px]"></div>
-                </div>
-
-                <div className="col-span-1 border-r border-black p-4 flex flex-col justify-center bg-black text-white">
-                    <p className="font-headline text-xl leading-tight italic">"The camera is an instrument that teaches people how to see without a camera."</p>
-                </div>
-
-                <div className="col-span-1 border-black group overflow-hidden relative">
-                    <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?q=80&w=800" 
-                         className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-                </div>
-            </div>
-        </section>
+        <div className="col-span-1 border-black group overflow-hidden relative">
+            <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?q=80&w=800" 
+                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+        </div>
+    </div>
+</section>
 
         {/* Works Section */}
         <section id="works" className="grid grid-cols-1 md:grid-cols-12 min-h-[400px]">
