@@ -329,27 +329,34 @@ export default function Home() {
 
         {/* Projects Section */}
         <section id="projects" className="border-b border-black">
-            <div className="p-4 border-b border-black bg-neutral-100 flex justify-between items-center">
-                <h2 className="font-headline text-3xl font-bold">AI Projects</h2>
-                <span className="font-mono-data text-xs">(2023 — 2026)</span>
+            <div className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
+    <h2 className="font-headline text-3xl font-bold uppercase">AI · Projects</h2>
+                <span className="font-mono-data text-xs">(2025 — 2026)</span>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2">
                 <Link href="/projects/fitness-agent">
                     <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
-                        <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
-    <div className="absolute inset-0 bg-[#111111] transition-opacity duration-500 group-hover:opacity-0">
-        <span className="absolute left-5 bottom-2 font-headline text-[6rem] font-black leading-none text-white/[0.06] select-none" style={{fontFamily:"'Playfair Display',serif"}}>IP</span>
-        <div className="absolute right-5 top-5 w-14 h-14 border border-white/20 rotate-45" />
-        <div className="absolute right-8 top-8 w-6 h-6 bg-[#CC0000]/90" />
-        <div className="absolute left-5 top-5 font-mono-data text-[9px] text-white/25 tracking-widest uppercase">Iron Press · 01</div>
-        <div className="absolute bottom-5 right-5 font-mono-data text-[9px] text-[#CC0000] tracking-widest">AGENT</div>
-        <div className="absolute left-5 top-1/2 -translate-y-1/2 flex flex-col gap-1.5">
-            {[80,55,95,40,70].map((w,i) => (
-                <div key={i} style={{width:w}} className="h-px bg-white/[0.12]" />
-            ))}
+                        <div className="w-full h-48 border border-black mb-6 overflow-hidden relative group">
+    {/* 默认：暖白封面 */}
+    <div className="absolute inset-0 bg-[#F9F9F7] transition-opacity duration-500 group-hover:opacity-0 p-5 flex flex-col justify-between">
+        <div className="flex justify-between items-start">
+            <span className="font-mono-data text-[9px] text-black/30 tracking-widest uppercase">Iron Press · 01</span>
+            <span className="font-mono-data text-[9px] text-[#CC0000] tracking-widest uppercase">AGENT</span>
+        </div>
+        <div className="absolute left-5 right-5 top-1/2 -translate-y-1/2">
+            <div className="font-headline text-[4.5rem] font-black leading-none tracking-tighter text-neutral-200 select-none" style={{fontFamily:"'Playfair Display',serif"}}>IRON<br/>PRESS</div>
+        </div>
+        <div className="flex items-end justify-between">
+            <div className="flex flex-col gap-1">
+                {[48,32,56,24].map((w,i) => (
+                    <div key={i} style={{width:w}} className={`h-px ${i===0?"bg-[#CC0000]":"bg-black/15"}`} />
+                ))}
+            </div>
+            <div className="w-6 h-6 border border-black/20 rotate-45" />
         </div>
     </div>
+    {/* Hover：截图 */}
     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
         <img src="/images/cover-ironpress.png" className="w-full h-full object-cover" />
     </div>
@@ -361,7 +368,7 @@ export default function Home() {
                         <p className="font-body text-neutral-600 line-clamp-3 mb-4">
                             个人健身管理 AI Agent。这是我学习 AI 开发的第一个完整项目，从需求定义到 Prompt 设计到界面搭建，全程独立完成。技术栈：Claude API + Next.js。
                         </p>
-                        <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">Launch App &rarr;</span>
+                        <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">VIEW CASE STUDY &rarr;</span>
                     </article>
                 </Link>
 
@@ -395,19 +402,27 @@ export default function Home() {
 
                  <Link href="/projects/contentflow">
                  <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
-                    <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
-    <div className="absolute inset-0 bg-[#111111] transition-opacity duration-500 group-hover:opacity-0">
-        <span className="absolute right-3 bottom-0 font-headline text-[6rem] font-black leading-none text-white/[0.06] select-none" style={{fontFamily:"'Playfair Display',serif"}}>CF</span>
-        <div className="absolute left-5 top-5 font-mono-data text-[9px] text-white/25 tracking-widest uppercase">ContentFlow · 03</div>
-        <div className="absolute bottom-5 right-5 font-mono-data text-[9px] text-[#CC0000] tracking-widest">AUTOMATION</div>
-        <div className="absolute left-5 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-            {[55,100,35,75,55,88].map((w,i) => (
-                <div key={i} style={{width:w}} className={`h-[3px] ${i===1 ? "bg-[#CC0000]" : "bg-white/15"}`} />
-            ))}
+                  <div className="w-full h-48 border border-black mb-6 overflow-hidden relative group">
+    {/* 默认：暖白封面 */}
+    <div className="absolute inset-0 bg-[#F9F9F7] transition-opacity duration-500 group-hover:opacity-0 p-5 flex flex-col justify-between">
+        <div className="absolute inset-0" style={{backgroundImage:"repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(0,0,0,0.025) 40px,rgba(0,0,0,0.025) 41px),repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(0,0,0,0.025) 40px,rgba(0,0,0,0.025) 41px)"}} />
+        <div className="flex justify-between items-start">
+            <span className="font-mono-data text-[9px] text-black/30 tracking-widest uppercase">ContentFlow · 03</span>
+            <span className="font-mono-data text-[9px] text-[#CC0000] tracking-widest uppercase">AUTO</span>
         </div>
-        <div className="absolute right-7 top-1/2 -translate-y-1/2 w-px h-14 bg-white/10" />
-        <div className="absolute right-5 top-5 font-mono-data text-[9px] text-white/15">■ ■ □</div>
-    </div>
+        <div className="absolute left-5 right-5 top-1/2 -translate-y-1/2">
+            <div className="font-headline font-black leading-none tracking-tighter text-neutral-200 select-none" style={{fontFamily:"'Playfair Display',serif", fontSize:"4.2rem"}}>CONTENT<br/>FLOW</div>
+        </div>
+        <div className="flex items-end justify-between">
+            <div className="flex flex-col gap-1.5">
+                {[56,100,36,76,56,88].map((w,i) => (
+                    <div key={i} style={{width:w*0.6}} className={`h-[2px] ${i===1?"bg-[#CC0000]/60":"bg-black/10"}`} />
+                ))}
+            </div>
+            <div className="font-mono-data text-[9px] text-black/15">■ □ ■</div>
+        </div>
+</div>
+    {/* Hover：截图 */}
     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
         <img src="/images/cover-contentflow.png" className="w-full h-full object-cover" />
     </div>
@@ -453,14 +468,14 @@ export default function Home() {
 
 {/* Lab Section */}
 <section id="lab" className="border-b border-black bg-white">
-    {/* Header — 与 Projects 一致的白色 */}
-    <div className="p-4 border-b border-black bg-neutral-100 flex justify-between items-center">
-        <div>
-            <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Lab / 实验田</h2>
-            <p className="font-mono-data text-[10px] text-black/30 mt-1 tracking-widest uppercase">Tools · Code · Design · Art</p>
-        </div>
-        <span className="font-mono-data text-[10px] text-black/20 italic">5 objects</span>
+    {/* Header */}
+<div className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
+    <div>
+        <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Lab / 实验田</h2>
+        <p className="font-mono-data text-[10px] text-white/30 mt-1 tracking-widest uppercase">Tools · Code · Design · Art</p>
     </div>
+    <span className="font-mono-data text-[10px] text-white/20 italic">5 objects</span>
+</div>
 
     {/* Grid */}
     <div className="grid grid-cols-4 border-black">
@@ -471,19 +486,30 @@ export default function Home() {
                 <span className="font-mono-data text-[9px] bg-[#CC0000] text-white px-2 py-0.5 tracking-widest uppercase">TOOL</span>
                 <span className="font-mono-data text-[9px] text-white/30 tracking-widest uppercase">01</span>
             </div>
-            {/* 默认封面 */}
-            <div className="absolute inset-0 bg-[#160E08] transition-opacity duration-500 group-hover:opacity-0 flex items-center justify-center">
-                <span className="absolute right-4 bottom-0 font-headline text-[10rem] font-black leading-none select-none" style={{fontFamily:"'Playfair Display',serif", color:"rgba(200,50,26,0.08)"}}>DR</span>
-                <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-                    {[100,60,80,40,70,50].map((w,i) => (
-                        <div key={i} style={{width:w}} className={`h-px ${i===0?"bg-[#C8321A]/60":"bg-white/10"}`} />
-                    ))}
-                </div>
-                <div className="absolute bottom-8 left-8">
-                    <div className="font-headline text-4xl font-black italic text-white/90" style={{fontFamily:"'Playfair Display',serif"}}>Dark<span style={{color:"#C8321A"}}>room</span></div>
-                    <div className="font-mono-data text-[10px] text-white/25 tracking-widest mt-1 uppercase">Image Lab · Browser-based</div>
-                </div>
-            </div>
+           {/* 默认封面 — 报纸风格 */}
+<div className="absolute inset-0 bg-[#F9F9F7] transition-opacity duration-500 group-hover:opacity-0 flex flex-col justify-between p-6">
+    <div className="flex justify-between items-start">
+        <span className="font-mono-data text-[9px] text-black/30 tracking-widest uppercase">Image Lab · Browser-based</span>
+        <span className="font-mono-data text-[9px] text-[#CC0000] tracking-widest uppercase">TOOL · 01</span>
+    </div>
+    <div className="absolute left-6 right-6 top-1/2 -translate-y-1/2">
+        <div className="font-headline font-black leading-none tracking-tighter text-black/06 select-none" style={{fontFamily:"'Playfair Display',serif", fontSize:"7rem"}}>DARK<br/>ROOM</div>
+    </div>
+    <div className="flex items-end justify-between">
+    <div className="flex flex-col gap-1.5">
+        {[80,48,96,32,64].map((w,i) => (
+            <div key={i} style={{width:w}} className={`h-px ${i===0?"bg-[#CC0000]/50":"bg-black/12"}`} />
+        ))}
+    </div>
+    <div className="text-right">
+        <div className="font-headline text-2xl font-black italic text-black/50" style={{fontFamily:"'Playfair Display',serif"}}>Dark<span style={{color:"#CC0000"}}>room</span></div>
+        <div className="font-mono-data text-[9px] text-black/25 tracking-widest mt-1 uppercase">Develop · Crop · Export</div>
+        <div className="font-body text-[11px] text-black/35 mt-2 max-w-[200px] text-right leading-relaxed">
+            浏览器端图像处理工具，支持滤镜、裁剪与多格式导出
+        </div>
+    </div>
+</div>
+</div>
             {/* Hover 截图 */}
             <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 <img src="/images/cover-darkroom.png" className="w-full h-full object-cover" />
