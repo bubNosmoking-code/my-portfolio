@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Physics Receipt</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            overflow: hidden;
+            background: #f0ede6;
+            font-family: monospace;
+            user-select: none;
+            width: 100vw;
+            height: 100vh;
+        }
+        #hint {
+            position: absolute;
+            bottom: 16px;
+            width: 100%;
+            text-align: center;
+            pointer-events: none;
+            font-family: monospace;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: rgba(0,0,0,0.2);
+            transition: opacity 0.4s;
+        }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <div id="hint">Drag to interact</div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+    (function() {
+        // ── Scene ──
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xf0ede6);
+        scene.fog = new THREE.Fog(0xf0ede6, 20, 60);
+
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+
+        const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 1000);
+        camera.position.set(0, 0, 20);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(W, H);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.body.appendChild(renderer.domElement);
+
+        // ── Lights ──
+        scene.add(new THREE.AmbientLight(0xffffff, 0.7));
+
+        const dirLight = new THREE.DirectionalLight(0xfffbe8, 1.0);
+        dirLight.position.set(4, 8, 12);
+        dirLight.castShadow = true;
+        dirLight.shadow.mapSize.width = 1024;
+        dirLight.shadow.mapSize.height = 1024;
+        Object.assign(dirLight.shadow.camera, { near:1, far:50, left:-10, right:10, top:10, bottom:-10 });
+        scene.add(dirLight);
+
+        // Rim light for paper edge glow
+        const rimLight = new THREE.DirectionalLight(0xffd4a0, 0.4);
+        rimLight.position.set(-8, -4, 6);
+        scene.add(rimLight);
+
+        // Background wall
+        const bgMesh = new THREE.Mesh(
+            new THREE.PlaneGeometry(100, 100),
+            new THREE.MeshStandardMaterial({ color: 0xdedad4, roughness: 1 })
+        );
+        bgMesh.position.z = -6;
+        bgMesh.receiveShadow = true;
+        scene.add(bgMesh);
+
+        // ── Receipt Texture ──
+        function createReceiptTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 512;
+            canvas.height = 1024;
+            const ctx = canvas.getContext('2d');
+
+            // Paper base
+            ctx.fillStyle = '#fdfcf0';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Subtle paper grain
+            for (let i = 0; i < 3000; i++) {
+                const x = Math.floor(Math.random() * canvas.width);
+                const y = Math.floor(Math.random() * canvas.height);
+                const alpha = Math.random() * 0.04;
+                ctx.fillStyle = `rgba(0,0,0,${alpha})`;
+                ctx.fillRect(x, y, 1, 1);
+            }
+
+            // Top serrated edge
+            ctx.strokeStyle = '#bbb';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([8, 8]);
+            ctx.beginPath(); ctx.moveTo(0, 4); ctx.lineTo(512, 4);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Store name
+            ctx.fillStyle = '#111';
+            ctx.textAlign = 'center';
+            ctx.font = 'bold 36px monospace';
+            ctx.fillText('VIBE CODE STORE', 256, 72);
+
+            ctx.font = '18px monospace';
+            ctx.fillStyle = '#555';
+            ctx.fillText('Receipt No. 2026-0313', 256, 104);
+
+            // Divider
+            ctx.fillStyle = '#333';
+            ctx.font = '20px monospace';
+            ctx.fillText('- - - - - - - - - - - - - -', 256, 138);
+
+            // Items — fixed so no random rerender issues
+            const items = [
+                { name: '1x  Default Cube',        price: '$  0.00' },
+                { name: '3x  PBR Textures 4K',     price: '$ 45.00' },
+                { name: '1x  Gimbal Lock Fix',      price: '$ 99.99' },
+                { name: '10k Extra Polygons',       price: '$ 12.50' },
+                { name: 'Lightmap Baking 24h',      price: '$150.00' },
+                { name: 'Anti-Aliasing Juice',      price: '$  5.99' },
+                { name: 'Subsurface Scat. Gel',     price: '$ 32.00' },
+            ];
+
+            ctx.textAlign = 'left';
+            ctx.fillStyle = '#222';
+            ctx.font = '22px monospace';
+            let y = 192;
+            items.forEach(item => {
+                ctx.fillText(item.name, 36, y);
+                ctx.textAlign = 'right';
+                ctx.fillText(item.price, 476, y);
+                ctx.textAlign = 'left';
+                y += 52;
+            });
+
+            // Total
+            ctx.textAlign = 'center';
+            ctx.fillStyle = '#333';
+            ctx.font = '20px monospace';
+            ctx.fillText('- - - - - - - - - - - - - -', 256, y + 16);
+
+            ctx.fillStyle = '#111';
+            ctx.font = 'bold 28px monospace';
+            ctx.textAlign = 'left';
+            ctx.fillText('TOTAL', 36, y + 64);
+            ctx.textAlign = 'right';
+            ctx.fillText('$ 345.48', 476, y + 64);
+
+            // Barcode — fixed widths (no Math.random)
+            const barWidths = [4,8,3,6,9,2,7,4,5,8,3,6,4,9,2,7,5,3,8,4,6,9,3,5,7,2,8,4,6,3,9,5,7,2,4,8,3,6,9,5];
+            ctx.fillStyle = '#111';
+            let bx = 68;
+            barWidths.forEach((w, i) => {
+                if (i % 2 === 0) ctx.fillRect(bx, y + 110, w, 72);
+                bx += w + 2;
+            });
+
+            // Footer
+            ctx.fillStyle = '#999';
+            ctx.font = '16px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText('NO REFUNDS ON NON-MANIFOLD GEO', 256, 970);
+
+            // Bottom serrated edge
+            ctx.strokeStyle = '#bbb';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([8, 8]);
+            ctx.beginPath(); ctx.moveTo(0, 1020); ctx.lineTo(512, 1020);
+            ctx.stroke();
+
+            const tex = new THREE.CanvasTexture(canvas);
+            tex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+            return tex;
+        }
+
+        // ── Physics cloth ──
+        const PW = 5.5, PH = 11;
+        const SX = 8, SY = 20; // reduced segments for performance
+
+        const geometry = new THREE.PlaneGeometry(PW, PH, SX, SY);
+        const material = new THREE.MeshStandardMaterial({
+            map: createReceiptTexture(),
+            roughness: 0.88,
+            metalness: 0.0,
+            side: THREE.DoubleSide,
+        });
+
+        const paperMesh = new THREE.Mesh(geometry, material);
+        paperMesh.castShadow = true;
+        paperMesh.receiveShadow = true;
+        scene.add(paperMesh);
+
+        // Particles
+        const particles = [];
+        const posAttr = geometry.attributes.position;
+
+        for (let i = 0; i < posAttr.count; i++) {
+            const row = Math.floor(i / (SX + 1));
+            const pinned = row === 0;
+            const p = {
+                pos: new THREE.Vector3(posAttr.getX(i), posAttr.getY(i), pinned ? 0 : (Math.random()-0.5)*0.02),
+                prevPos: new THREE.Vector3(posAttr.getX(i), posAttr.getY(i), 0),
+                pinned,
+            };
+            particles.push(p);
+        }
+
+        // Constraints
+        const constraints = [];
+        const idx = (u, v) => u + v * (SX + 1);
+
+        for (let v = 0; v <= SY; v++) {
+            for (let u = 0; u <= SX; u++) {
+                if (u < SX) constraints.push([idx(u,v), idx(u+1,v)]);
+                if (v < SY) constraints.push([idx(u,v), idx(u,v+1)]);
+                if (u < SX && v < SY) {
+                    constraints.push([idx(u,v), idx(u+1,v+1)]);
+                    constraints.push([idx(u+1,v), idx(u,v+1)]);
+                }
+                if (u < SX-1) constraints.push([idx(u,v), idx(u+2,v)]);
+                if (v < SY-1) constraints.push([idx(u,v), idx(u,v+2)]);
+            }
+        }
+
+        const restLengths = constraints.map(([a,b]) => particles[a].pos.distanceTo(particles[b].pos));
+
+        // Physics constants
+        const TIMESTEP_SQ = (16/1000) * (16/1000);
+        const DAMPING = 0.985;
+        const GRAVITY = new THREE.Vector3(0, -6.5, 0);
+        const _diff = new THREE.Vector3();
+        const _corr = new THREE.Vector3();
+
+        function simulate() {
+            const t = Date.now() * 0.0008;
+            const windX = Math.sin(t * 0.7) * 1.2;
+            const windZ = Math.cos(t * 1.1) * 0.8;
+
+            // Verlet integration
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+                if (p.pinned) continue;
+                const vx = (p.pos.x - p.prevPos.x) * DAMPING;
+                const vy = (p.pos.y - p.prevPos.y) * DAMPING;
+                const vz = (p.pos.z - p.prevPos.z) * DAMPING;
+                p.prevPos.copy(p.pos);
+                p.pos.x += vx + (GRAVITY.x + windX) * TIMESTEP_SQ;
+                p.pos.y += vy + GRAVITY.y * TIMESTEP_SQ;
+                p.pos.z += vz + windZ * TIMESTEP_SQ;
+            }
+
+            // Constraint relaxation — 12 iterations
+            for (let iter = 0; iter < 12; iter++) {
+                for (let j = 0; j < constraints.length; j++) {
+                    const [ai, bi] = constraints[j];
+                    const pa = particles[ai], pb = particles[bi];
+                    _diff.subVectors(pb.pos, pa.pos);
+                    const len = _diff.length();
+                    if (len === 0) continue;
+                    const diff = (len - restLengths[j]) / len * 0.5;
+                    _corr.copy(_diff).multiplyScalar(diff);
+                    if (!pa.pinned) pa.pos.add(_corr);
+                    if (!pb.pinned) pb.pos.sub(_corr);
+                }
+            }
+        }
+
+        // ── Interaction ──
+        const raycaster = new THREE.Raycaster();
+        const mouse = new THREE.Vector2(-99, -99);
+        const dragPlane = new THREE.Plane(new THREE.Vector3(0,0,1), 0);
+        const planeHit = new THREE.Vector3();
+        let dragParticle = null;
+        let isHovering = false;
+
+        const canvas = renderer.domElement;
+
+        function toNDC(e) {
+            const rect = canvas.getBoundingClientRect();
+            return new THREE.Vector2(
+                ((e.clientX - rect.left) / rect.width) * 2 - 1,
+                -((e.clientY - rect.top) / rect.height) * 2 + 1
+            );
+        }
+
+        canvas.addEventListener('pointerdown', e => {
+            const ndc = toNDC(e);
+            raycaster.setFromCamera(ndc, camera);
+            const hits = raycaster.intersectObject(paperMesh);
+            if (hits.length > 0) {
+                const pt = hits[0].point;
+                const face = hits[0].face;
+                let best = Infinity, bestIdx = -1;
+                [face.a, face.b, face.c].forEach(i => {
+                    const d = particles[i].pos.distanceTo(pt);
+                    if (d < best) { best = d; bestIdx = i; }
+                });
+                if (bestIdx !== -1 && !particles[bestIdx].pinned) {
+                    dragParticle = particles[bestIdx];
+                    dragPlane.setFromNormalAndCoplanarPoint(
+                        camera.getWorldDirection(new THREE.Vector3()).negate(),
+                        dragParticle.pos
+                    );
+                    canvas.style.cursor = 'grabbing';
+                    document.getElementById('hint').style.opacity = '0';
+                }
+            }
+        });
+
+        canvas.addEventListener('pointermove', e => {
+            const ndc = toNDC(e);
+            mouse.copy(ndc);
+            if (dragParticle) {
+                raycaster.setFromCamera(ndc, camera);
+                if (raycaster.ray.intersectPlane(dragPlane, planeHit)) {
+                    dragParticle.pos.copy(planeHit);
+                    dragParticle.prevPos.copy(planeHit);
+                }
+            } else {
+                raycaster.setFromCamera(ndc, camera);
+                const hits = raycaster.intersectObject(paperMesh);
+                const nowHover = hits.length > 0;
+                if (nowHover !== isHovering) {
+                    canvas.style.cursor = nowHover ? 'grab' : 'default';
+                    isHovering = nowHover;
+                }
+            }
+        });
+
+        canvas.addEventListener('pointerup', () => {
+            dragParticle = null;
+            canvas.style.cursor = isHovering ? 'grab' : 'default';
+        });
+
+        window.addEventListener('resize', () => {
+            const w = window.innerWidth, h = window.innerHeight;
+            camera.aspect = w / h;
+            camera.updateProjectionMatrix();
+            renderer.setSize(w, h);
+        });
+
+        // ── Animate ──
+        function animate() {
+            requestAnimationFrame(animate);
+            simulate();
+
+            // Force drag particle to mouse
+            if (dragParticle) {
+                raycaster.setFromCamera(mouse, camera);
+                if (raycaster.ray.intersectPlane(dragPlane, planeHit)) {
+                    dragParticle.pos.copy(planeHit);
+                    dragParticle.prevPos.copy(planeHit);
+                }
+            }
+
+            for (let i = 0; i < particles.length; i++) {
+                posAttr.setXYZ(i, particles[i].pos.x, particles[i].pos.y, particles[i].pos.z);
+            }
+            posAttr.needsUpdate = true;
+            geometry.computeVertexNormals();
+            renderer.render(scene, camera);
+        }
+
+        animate();
+    })();
+    </script>
+</body>
+</html>

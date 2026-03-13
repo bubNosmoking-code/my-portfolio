@@ -101,7 +101,7 @@ export default function Home() {
         <div className="hidden md:flex gap-6 font-mono-data text-xs uppercase tracking-widest items-center">
             <a href="#intro" className="hover:underline decoration-[#CC0000] underline-offset-4">Intro</a>
             <a href="#projects" className="hover:underline decoration-[#CC0000] underline-offset-4">Projects</a>
-            <a href="#works" className="hover:underline decoration-[#CC0000] underline-offset-4">Works</a>
+            <a href="#lab" className="hover:underline decoration-[#CC0000] underline-offset-4">Lab</a>
             
             {/* 导航栏简历按钮 - 小巧精致 */}
             <a href="/resume.pdf" download className="bg-black text-white px-2 py-1 hover:bg-[#CC0000] transition-colors flex items-center gap-1 group">
@@ -451,68 +451,158 @@ export default function Home() {
             </div>
         </section>
 
-{/* Gallery Section */}
-<section id="gallery" className="border-b border-black bg-white">
-    <div className="p-4 border-b border-black bg-neutral-50 flex justify-between items-center">
-        <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Visual Archives / 影像存档</h2>
-        <span className="font-mono-data text-[10px] text-neutral-400 italic">TYPE: 35MM SILVER GELATIN PRINT</span>
+{/* Lab Section */}
+<section id="lab" className="border-b border-black bg-white">
+    {/* Header — 与 Projects 一致的白色 */}
+    <div className="p-4 border-b border-black bg-neutral-100 flex justify-between items-center">
+        <div>
+            <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Lab / 实验田</h2>
+            <p className="font-mono-data text-[10px] text-black/30 mt-1 tracking-widest uppercase">Tools · Code · Design · Art</p>
+        </div>
+        <span className="font-mono-data text-[10px] text-black/20 italic">5 objects</span>
     </div>
 
-    <div className="grid grid-cols-2 md:grid-cols-4 border-black">
-        <div className="col-span-2 row-span-2 border-r border-b border-black group overflow-hidden relative">
-            <div className="absolute top-4 left-4 z-10 font-mono-data text-[10px] bg-black text-white px-2 py-1">PLATE NO. 01</div>
-            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000" 
-                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100" />
-            <div className="absolute inset-0 pointer-events-none opacity-20 bg-[radial-gradient(#000_1px,transparent_1px)] [background-size:4px_4px]"></div>
-            <Link href="/projects/darkroom" className="absolute inset-0 z-20">
-                <div className="absolute bottom-4 right-4 font-mono-data text-[10px] bg-black text-white px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    Open Darkroom →
+    {/* Grid */}
+    <div className="grid grid-cols-4 border-black">
+
+        {/* 01 — Darkroom · TOOL · col-span-2 row-span-2 */}
+        <div className="col-span-2 row-span-2 border-r border-b border-black group overflow-hidden relative" style={{minHeight: 480}}>
+            <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
+                <span className="font-mono-data text-[9px] bg-[#CC0000] text-white px-2 py-0.5 tracking-widest uppercase">TOOL</span>
+                <span className="font-mono-data text-[9px] text-white/30 tracking-widest uppercase">01</span>
+            </div>
+            {/* 默认封面 */}
+            <div className="absolute inset-0 bg-[#160E08] transition-opacity duration-500 group-hover:opacity-0 flex items-center justify-center">
+                <span className="absolute right-4 bottom-0 font-headline text-[10rem] font-black leading-none select-none" style={{fontFamily:"'Playfair Display',serif", color:"rgba(200,50,26,0.08)"}}>DR</span>
+                <div className="absolute left-8 top-1/2 -translate-y-1/2 flex flex-col gap-2">
+                    {[100,60,80,40,70,50].map((w,i) => (
+                        <div key={i} style={{width:w}} className={`h-px ${i===0?"bg-[#C8321A]/60":"bg-white/10"}`} />
+                    ))}
                 </div>
-            </Link>
+                <div className="absolute bottom-8 left-8">
+                    <div className="font-headline text-4xl font-black italic text-white/90" style={{fontFamily:"'Playfair Display',serif"}}>Dark<span style={{color:"#C8321A"}}>room</span></div>
+                    <div className="font-mono-data text-[10px] text-white/25 tracking-widest mt-1 uppercase">Image Lab · Browser-based</div>
+                </div>
+            </div>
+            {/* Hover 截图 */}
+            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <img src="/images/cover-darkroom.png" className="w-full h-full object-cover" />
+            </div>
+            {/* 入口按钮 */}
+            <div className="absolute bottom-6 right-6 z-20">
+                <a href="/projects/darkroom" className="font-mono-data text-[9px] bg-black text-white px-3 py-2 tracking-widest uppercase opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-1 group-hover:translate-y-0 inline-block">
+                    Open Lab →
+                </a>
+            </div>
+            <div className="absolute inset-0 z-10 cursor-pointer" onClick={() => window.location.href='/projects/darkroom'} />
         </div>
 
-        <div className="col-span-1 border-r border-b border-black group overflow-hidden relative">
-            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800" 
-                 className="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-            <div className="absolute bottom-0 left-0 w-full p-2 bg-white/90 border-t border-black translate-y-full group-hover:translate-y-0 transition-transform">
-                <p className="font-mono-data text-[9px] uppercase">Composition Study</p>
+        {/* 02 — Receipt UI · CODE · 1:1 */}
+<div className="col-span-1 border-r border-b border-black group overflow-hidden relative bg-[#f0ede6]" style={{aspectRatio:"1/1"}}>
+    {/* Badge */}
+    <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
+        <span className="font-mono-data text-[9px] bg-[#111111] text-white px-2 py-0.5 tracking-widest uppercase">CODE</span>
+        <span className="font-mono-data text-[9px] text-black/25 tracking-widest uppercase">02</span>
+    </div>
+
+  {/* iframe — grayscale by default, color on hover */}
+<iframe
+    src="/receipt-ui.html"
+    className="absolute inset-0 w-full h-full border-none transition-all duration-500"
+    style={{
+        pointerEvents: "none",
+        filter: "grayscale(100%) brightness(0.9)",
+    }}
+    onMouseEnter={e => {
+        e.currentTarget.style.pointerEvents = "auto";
+        e.currentTarget.style.filter = "grayscale(0%) brightness(1)";
+    }}
+    onMouseLeave={e => {
+        e.currentTarget.style.pointerEvents = "none";
+        e.currentTarget.style.filter = "grayscale(100%) brightness(0.9)";
+    }}
+    title="Receipt UI"
+/>
+
+    {/* Bottom label — slides up on hover */}
+    <div className="absolute bottom-0 left-0 right-0 z-20 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/95 border-t border-black pointer-events-none">
+        <div className="flex justify-between items-end">
+            <div>
+                <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>Receipt UI</div>
+                <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Three.js · Verlet Physics</div>
+            </div>
+            <a href="/projects/receipt-ui" className="font-mono-data text-[9px] bg-black text-white px-2 py-1 tracking-widest uppercase pointer-events-auto">
+                Full →
+            </a>
+        </div>
+    </div>
+</div>
+
+        {/* 03 — 剪贴画 · DESIGN · 1:1 */}
+        <div className="col-span-1 border-b border-black group overflow-hidden relative" style={{aspectRatio:"1/1"}}>
+            <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
+                <span className="font-mono-data text-[9px] bg-[#CC0000] text-white px-2 py-0.5 tracking-widest uppercase">DESIGN</span>
+                <span className="font-mono-data text-[9px] text-white/50 tracking-widest uppercase">03</span>
+            </div>
+            <img
+                src="/images/lab-collage.jpg"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
+            <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/95 border-t border-black">
+                <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>剪贴画</div>
+                <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Collage · Mixed Media</div>
             </div>
         </div>
 
-        <div className="col-span-1 border-b border-black group overflow-hidden relative">
-            <img src="https://images.unsplash.com/photo-1515462277126-2dd0c162007a?q=80&w=800" 
-                 className="w-full h-72 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
+        {/* 04 — 装置艺术 01 · ART · 4:3 */}
+        <div className="col-span-1 border-r border-black group overflow-hidden relative" style={{aspectRatio:"4/3"}}>
+            <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
+                <span className="font-mono-data text-[9px] border border-black/30 text-black/40 px-2 py-0.5 tracking-widest uppercase bg-white/80">ART</span>
+                <span className="font-mono-data text-[9px] text-black/25 tracking-widest uppercase">04</span>
+            </div>
+            <img
+                src="/images/lab-installation-01.jpg"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+            />
+            <div className="absolute inset-0 pointer-events-none opacity-[0.06] bg-[linear-gradient(0deg,transparent_1px,#000_1px)] [background-size:100%_3px]" />
+            <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/95 border-t border-black">
+                <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>装置艺术 I</div>
+                <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Installation · Photography</div>
+            </div>
         </div>
 
-        <div className="col-span-2 border-b border-black group overflow-hidden relative">
-            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000" 
-                 className="w-full h-64 object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-            <div className="absolute inset-0 pointer-events-none opacity-10 bg-[linear-gradient(0deg,transparent_1px,#000_1px)] [background-size:100%_3px]"></div>
+        {/* 05 — 装置艺术 02 · ART · 4:3 */}
+        <div className="col-span-1 border-black group overflow-hidden relative" style={{aspectRatio:"4/3"}}>
+            <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
+                <span className="font-mono-data text-[9px] border border-black/30 text-black/40 px-2 py-0.5 tracking-widest uppercase bg-white/80">ART</span>
+                <span className="font-mono-data text-[9px] text-black/25 tracking-widest uppercase">05</span>
+            </div>
+            <img
+                src="/images/lab-installation-02.jpg"
+                className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
+            />
+            <div className="absolute inset-0 pointer-events-none opacity-[0.06] bg-[linear-gradient(0deg,transparent_1px,#000_1px)] [background-size:100%_3px]" />
+            <div className="absolute bottom-0 left-0 right-0 p-3 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-white/95 border-t border-black">
+                <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>装置艺术 II</div>
+                <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Installation · Photography</div>
+            </div>
         </div>
-
-        <div className="col-span-1 border-r border-black p-4 flex flex-col justify-center bg-black text-white">
-            <p className="font-headline text-xl leading-tight italic">"The camera is an instrument that teaches people how to see without a camera."</p>
-        </div>
-
-        <div className="col-span-1 border-black group overflow-hidden relative">
-            <img src="https://images.unsplash.com/photo-1493397212122-2b85ddd82fbe?q=80&w=800" 
-                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" />
-        </div>
-    </div>
+</div>
 </section>
 
         {/* Works Section */}
         <section id="works" className="grid grid-cols-1 md:grid-cols-12 min-h-[400px]">
-            <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-black p-8 bg-[#111111] text-[#F9F9F7]">
-                <h2 className="font-headline text-4xl font-bold mb-4">Works &<br/>Thoughts</h2>
-                <p className="font-body text-sm text-neutral-400 mb-8">
-                    这里存档了我的文章、随笔以及一些未完成的实验性代码。
-                </p>
-                <div className="w-8 h-1 bg-[#CC0000] mb-8"></div>
-                <div className="font-mono-data text-xs uppercase tracking-widest opacity-50">
-                    Last Update: <br/>Feb 02, 2026
-                </div>
-            </div>
+            <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-black p-8 bg-[#F9F9F7] text-[#111111]">
+    <h2 className="font-headline text-4xl font-bold mb-4">Works &<br/>Thoughts</h2>
+    <p className="font-body text-sm text-neutral-600 mb-8">
+        这里存档了我的文章、随笔以及一些未完成的实验性代码。
+    </p>
+    <div className="w-8 h-1 bg-[#CC0000] mb-8"></div>
+    <div className="font-mono-data text-xs uppercase tracking-widest text-black/40">
+        Last Update: <br/>Mar 13, 2026
+    </div>
+</div>
 
             <div className="md:col-span-9 bg-white">
                 <a href="#" className="group flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-black hover:bg-neutral-100 transition-colors">
