@@ -151,11 +151,11 @@ export default function Home() {
             <div className="md:col-span-8 p-8 md:p-12 flex flex-col justify-center">
                 <div className="font-mono-data text-xs uppercase tracking-widest mb-4 text-[#CC0000]">Editorial / 01</div>
                 <p className="drop-cap text-lg md:text-xl leading-relaxed text-justify mb-6">
-                    你好，我是 bub。在过去几年里，我独立操盘过多个品牌的出海项目——从零搭建独立站、做跨境流量、管理海外社媒账号，亲身经历过一个产品如何在陌生市场从 0 开始找到自己的用户。
-                </p>
-                <p className="text-lg leading-relaxed text-justify text-neutral-700">
-                    AI 的出现让我看到了一种可能性：那些曾经需要庞大团队才能做到的事，现在一个人就可以跑通。我正在用 AI 工具重新定义我过去熟悉的每一个工作流，并把它们变成可复用的产品。这个网站，就是这个过程的记录。
-                </p>
+    你好，我是 bub。我做品牌出海，做内容，跑增长。AI 出现之后，我开始用它重新做一遍我已经会的事——发现很多事情可以做得更好，也发现有些事情 AI 其实做不了。这个过程让我有很多想说的话。
+</p>
+<p className="text-lg leading-relaxed text-justify text-neutral-700">
+    这个网站是我放东西的地方。有我用 AI 做的一些小工具，都是因为自己用得上才做的。有一些视觉实验，Three.js 的、Canvas 的，纯粹觉得好玩。也有一些文字，关于 AI 在真实工作里的样子，以及我自己还没完全想清楚的一些问题。欢迎逛逛。
+</p>
                 
                 {/* 社交链接与大号简历下载按钮 */}
                 <div className="mt-8 pt-8 border-t border-dashed border-black w-full flex flex-col gap-4">
@@ -233,91 +233,91 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3">
-                <div className="border-b md:border-b-0 md:border-r border-black">
-                    <div className="p-2 border-b border-black bg-neutral-100 font-mono-data text-[10px] font-bold uppercase tracking-widest text-center">
-                        Sector: Growth & Operations / 增长运营
-                    </div>
-                    <table className="w-full font-mono-data text-xs">
-                        <thead>
-                            <tr className="border-b border-black text-[10px] uppercase">
-                                <th className="p-2 text-left border-r border-black">Asset</th>
-                                <th className="p-2 text-left border-r border-black">Strength</th>
-                                <th className="p-2 text-right">Trend</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-black/10">
-                            <tr className="hover:bg-neutral-50">
-                                <td className="p-2 border-r border-black font-bold">SHOPIFY</td>
-                                <td className="p-2 border-r border-black text-neutral-500">++++++--</td>
-                                <td className="p-2 text-right text-[#CC0000]">▲ 92.0</td>
-                            </tr>
-                            <tr className="hover:bg-neutral-50">
-                                <td className="p-2 border-r border-black font-bold">META ADS</td>
-                                <td className="p-2 border-r border-black text-neutral-500">+++++---</td>
-                                <td className="p-2 text-right text-[#CC0000]">▲ 87.3</td>
-                            </tr>
-                            <tr className="hover:bg-neutral-50">
-                                <td className="p-2 border-r border-black font-bold">SEO/SEM</td>
-                                <td className="p-2 border-r border-black text-neutral-500">++++----</td>
-                                <td className="p-2 text-right text-neutral-400">▼ 78.5</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <div className="border-b md:border-b-0 md:border-r border-black">
+        <div className="p-2 border-b border-black bg-neutral-100 font-mono-data text-[10px] font-bold uppercase tracking-widest text-center">
+            Sector: Growth & Content Operations
+        </div>
+        <table className="w-full font-mono-data text-xs">
+            <thead>
+                <tr className="border-b border-black text-[10px] uppercase">
+                    <th className="p-2 text-left border-r border-black">Asset</th>
+                    <th className="p-2 text-left border-r border-black">Strength</th>
+                    <th className="p-2 text-right">Trend</th>
+                </tr>
+            </thead>
+            <tbody className="divide-y divide-black/10">
+                <tr className="hover:bg-neutral-50">
+                    <td className="p-2 border-r border-black font-bold">SHOPIFY</td>
+                    <td className="p-2 border-r border-black text-neutral-500">++++++--</td>
+                    <td className="p-2 text-right text-[#CC0000]">▲ 92.0</td>
+                </tr>
+                <tr className="hover:bg-neutral-50">
+                    <td className="p-2 border-r border-black font-bold">GOOGLE ADS</td>
+                    <td className="p-2 border-r border-black text-neutral-500">+++++---</td>
+                    <td className="p-2 text-right text-[#CC0000]">▲ 85.0</td>
+                </tr>
+                <tr className="hover:bg-neutral-50">
+                    <td className="p-2 border-r border-black font-bold">SEO / GEO</td>
+                    <td className="p-2 border-r border-black text-neutral-500">+++++++−</td>
+                    <td className="p-2 text-right text-[#CC0000]">▲ 95.0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                <div className="border-b md:border-b-0 md:border-r border-black">
-                    <div className="p-2 border-b border-black bg-neutral-100 font-mono-data text-[10px] font-bold uppercase tracking-widest text-center">
-                        Sector: AI Tooling / AI工具应用
-                    </div>
-                    <table className="w-full font-mono-data text-xs">
-                        <thead>
-                            <tr className="border-b border-black text-[10px] uppercase">
-                                <th className="p-2 text-left border-r border-black">Asset</th>
-                                <th className="p-2 text-left border-r border-black">Strength</th>
-                                <th className="p-2 text-right">Trend</th>
-                            </tr>
-                        </thead>
-                        <tbody className="divide-y divide-black/10">
-                            <tr className="hover:bg-neutral-50">
-                                <td className="p-2 border-r border-black font-bold">PROMPT ENG</td>
-                                <td className="p-2 border-r border-black text-neutral-500">++++++--</td>
-                                <td className="p-2 text-right text-[#CC0000]">▲ 90.1</td>
-                            </tr>
-                            <tr className="hover:bg-neutral-50">
-                                <td className="p-2 border-r border-black font-bold">WORKFLOW AUTO</td>
-                                <td className="p-2 border-r border-black text-neutral-500">+++++---</td>
-                                <td className="p-2 text-right text-[#CC0000]">▲ 85.0</td>
-                            </tr>
-                            <tr className="hover:bg-neutral-50">
-                                <td className="p-2 border-r border-black font-bold">VIBE CODING</td>
-                                <td className="p-2 border-r border-black text-neutral-500">++++----</td>
-                                <td className="p-2 text-right text-[#CC0000]">▲ 80.2</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <div className="border-b md:border-b-0 md:border-r border-black">
+        <div className="p-2 border-b border-black bg-neutral-100 font-mono-data text-[10px] font-bold uppercase tracking-widest text-center">
+            Sector: AI Tooling & Creation
+        </div>
+        <table className="w-full font-mono-data text-xs">
+            <thead>
+                <tr className="border-b border-black text-[10px] uppercase">
+                    <th className="p-2 text-left border-r border-black">Asset</th>
+                    <th className="p-2 text-left border-r border-black">Strength</th>
+                    <th className="p-2 text-right">Trend</th>
+                </tr>
+            </thead>
+            <tbody className="divide-y divide-black/10">
+                <tr className="hover:bg-neutral-50">
+                    <td className="p-2 border-r border-black font-bold">PROMPT ENG</td>
+                    <td className="p-2 border-r border-black text-neutral-500">++++++--</td>
+                    <td className="p-2 text-right text-[#CC0000]">▲ 90.1</td>
+                </tr>
+                <tr className="hover:bg-neutral-50">
+                    <td className="p-2 border-r border-black font-bold">VIBE CODING</td>
+                    <td className="p-2 border-r border-black text-neutral-500">+++++---</td>
+                    <td className="p-2 text-right text-[#CC0000]">▲ 85.0</td>
+                </tr>
+                <tr className="hover:bg-neutral-50">
+                    <td className="p-2 border-r border-black font-bold">LLM / RAG / AGENT</td>
+                    <td className="p-2 border-r border-black text-neutral-500">++++----</td>
+                    <td className="p-2 text-right text-[#CC0000]">▲ 82.0</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
-                <div className="p-6 flex flex-col justify-between">
-                    <div>
-                        <h4 className="font-headline font-bold text-lg mb-2 underline decoration-1 decoration-black">Analyst Note / 专家评级</h4>
-                        <p className="font-body text-xs text-justify leading-tight text-neutral-600">
-                            该候选人具备稀缺的<span className="text-black font-bold">「出海业务经验 × AI落地应用」</span>复合背景。其对真实商业增长场景的理解，使其在 AI 工具的选择与应用上具备远超纯技术背景候选人的判断力。建议在 AI × 跨境 / AI × 增长 相关岗位上给予重点关注。
-                        </p>
-                    </div>
-                    <div className="mt-6 pt-4 border-t border-black">
-                        <div className="flex justify-between items-end">
-                            <div>
-                                <div className="font-mono-data text-[10px] uppercase">Confidence Score</div>
-                                <div className="font-headline text-3xl font-black">9.41</div>
-                            </div>
-                            <div className="text-right">
-                                <div className="font-mono-data text-[10px] uppercase text-[#CC0000]">Rating</div>
-                                <div className="font-headline text-2xl font-bold italic text-[#CC0000]">STRONG BUY</div>
-                            </div>
-                        </div>
-                    </div>
+    <div className="p-6 flex flex-col justify-between">
+        <div>
+            <h4 className="font-headline font-bold text-lg mb-2 underline decoration-1 decoration-black">Analyst Note / 专家评级</h4>
+            <p className="font-body text-xs text-justify leading-tight text-neutral-600">
+                该候选人具备<span className="text-black font-bold">「真实业务经验 × AI 落地能力」</span>的稀缺复合背景。3年+ 海外内容营销经验覆盖独立站全链路，深度实践 GEO 优化与 LLM 内容工作流重构，能以开发者视角创作技术内容。对 RAG、Agent、API 集成等 GenAI 方向保持高密度关注，具备与工程团队同频沟通的能力。适合需要同时理解产品技术逻辑与全球内容分发的 Content Evangelist 岗位。
+            </p>
+        </div>
+        <div className="mt-6 pt-4 border-t border-black">
+            <div className="flex justify-between items-end">
+                <div>
+                    <div className="font-mono-data text-[10px] uppercase">Confidence Score</div>
+                    <div className="font-headline text-3xl font-black">9.41</div>
+                </div>
+                <div className="text-right">
+                    <div className="font-mono-data text-[10px] uppercase text-[#CC0000]">Rating</div>
+                    <div className="font-headline text-2xl font-bold italic text-[#CC0000]">STRONG BUY</div>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
 
             <div className="border-t border-black p-1 bg-neutral-50 overflow-hidden whitespace-nowrap">
                 <div className="inline-block font-mono-data text-[10px] animate-[scroll_20s_linear_infinite]">
