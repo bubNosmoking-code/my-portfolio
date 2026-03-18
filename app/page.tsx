@@ -130,7 +130,7 @@ export default function Home() {
             <div className="md:col-span-8 p-8 md:p-12 flex flex-col justify-center">
                 <div className="font-mono-data text-xs uppercase tracking-widest mb-4 text-[#CC0000]">Editorial / 01</div>
                 <p className="drop-cap text-lg md:text-xl leading-relaxed text-justify mb-6">
-                    你好，我是 bub。我做品牌出海，做内容，跑增长。AI 出现之后，我开始用它重新做一遍我已经会的事——发现很多事情可以做得更好，也发现有些事情 AI 其实做不了。这个过程让我有很多想说的话。
+                    你好，我是 bub。我做产品出海，做内容，跑增长。AI 出现之后，我开始用它重新做一遍我已经会的事——发现很多事情可以做得更好，也发现有些事情 AI 其实做不了。这个过程让我有很多想说的话。
                 </p>
                 <p className="text-lg leading-relaxed text-justify text-neutral-700">
                     这个网站是我放东西的地方。有我用 AI 做的一些小工具，都是因为自己用得上才做的。有一些视觉实验，Three.js 的、Canvas 的，纯粹觉得好玩。也有一些文字，关于 AI 在真实工作里的样子，以及我自己还没完全想清楚的一些问题。欢迎逛逛。
