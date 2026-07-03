@@ -7,6 +7,7 @@ type SiteCardProps = {
   domain: string;
   tag: string;
   index: number;
+  image?: string;
   href?: string;
   tilt?: number; // kept for caller compatibility, no longer used visually
   /** 0–1, how close the card is to the viewport center; 1 = enlarged */
@@ -21,7 +22,7 @@ const PLACEHOLDER_IMAGE = "/images/coffee robot.png";
  * matte, caption set below like a figure. On hover the (full-page) screenshot
  * slowly pans from top to bottom inside the frame.
  */
-export function SiteCard({ title, domain, tag, index, href = "#", focus = 0, className = "" }: SiteCardProps) {
+export function SiteCard({ title, domain, tag, index, image = PLACEHOLDER_IMAGE, href = "#", focus = 0, className = "" }: SiteCardProps) {
   const style: CSSProperties = {
     transform: `scale(${1 + 0.04 * focus})`,
     zIndex: focus > 0.5 ? 10 : undefined,
@@ -37,7 +38,7 @@ export function SiteCard({ title, domain, tag, index, href = "#", focus = 0, cla
       {/* the plate — frame adopts the screenshot's own aspect ratio, nothing cropped */}
       <div className="relative border border-black overflow-hidden bg-neutral-100">
         <img
-          src={PLACEHOLDER_IMAGE}
+          src={image}
           alt={title}
           className="block w-full h-auto"
         />

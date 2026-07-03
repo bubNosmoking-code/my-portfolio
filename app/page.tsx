@@ -17,17 +17,17 @@ import { CropMarks } from './components/CropMarks';
 
 const demoTracks = [
   { title: '3AM In Sheffield', tag: 'DEMO', src: '/audio/demo-1.mp3' },
-  { title: '凌晨四点', tag: 'DEMO', src: '/audio/demo-2.mp3' },
-  { title: '信号微弱', tag: 'DEMO', src: '/audio/demo-3.mp3' },
-  { title: '复印店', tag: 'DEMO', src: '/audio/demo-4.mp3' },
+  { title: 'Output', tag: 'DEMO', src: '/audio/demo-2.mp3' },
+  { title: 'just to be close to u', tag: 'DEMO', src: '/audio/demo-3.mp3' },
+  { title: 'not everyone likes you', tag: 'DEMO', src: '/audio/demo-4.mp3' },
 ];
 
 const sites = [
-  { title: 'Northwind Outfitters', domain: 'northwindoutfitters.com', tag: 'Fashion', tilt: -2.5 },
-  { title: 'Lumen Home Co.', domain: 'lumenhome.co', tag: 'Home Goods', tilt: 1.5 },
-  { title: 'Verdant Skincare', domain: 'verdantskin.com', tag: 'Beauty', tilt: -1.5 },
-  { title: 'Atlas Gear Supply', domain: 'atlasgearsupply.com', tag: 'Outdoor', tilt: 2 },
-  { title: 'Folio & Form', domain: 'folioandform.com', tag: 'Lifestyle', tilt: -2 },
+  { title: 'Northwind Outfitters', domain: 'constarfactory.com', tag: 'Fashion', image: '/images/contact-lenses.png', href: 'https://www.constarfactory.com' },
+  { title: 'Lumen Home Co.', domain: 'v6-myd04.globalso.site', tag: 'Home Goods', image: '/images/coffee robot.png', href: 'https://v6-myd04.globalso.site/' },
+  { title: 'Verdant Skincare', domain: 'goowave.ai', tag: 'Beauty', image: '/images/AI-glasses.png', href: 'https://www.goowave.ai' },
+  { title: 'Atlas Gear Supply', domain: 'mucuhouse.com', tag: 'Outdoor', image: '/images/container-house.png', href: 'https://www.mucuhouse.com' },
+  { title: 'Folio & Form', domain: 'ai.cc', tag: 'Lifestyle', image: '/images/AI-API.png', href: 'https://www.ai.cc' },
 ];
 
 export default function Home() {
@@ -689,9 +689,9 @@ export default function Home() {
                                     domain={site.domain}
                                     tag={site.tag}
                                     index={i + 1}
-                                    tilt={site.tilt}
+                                    image={site.image}
                                     focus={focus}
-                                    href="https://www.constarfactory.com/"
+                                    href={site.href}
                                 />
                             );
                         })}
