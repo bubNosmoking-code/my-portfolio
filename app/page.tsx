@@ -1,12 +1,83 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
-import { Menu, Mail, FileText, Download } from 'lucide-react';
+import { Menu, X, Mail, FileText, Download } from 'lucide-react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { Reveal } from './components/Reveal';
+import { SiteCard } from './components/SiteCard';
+import { MusicCard } from './components/MusicCard';
+import { getLatestEssays } from './works/data';
+import { useTypewriter } from './hooks/useTypewriter';
+import { ScrollProgress } from './components/ScrollProgress';
+import { PrintCounter } from './components/PrintCounter';
+import { Masthead } from './components/Masthead';
+import { CropMarks } from './components/CropMarks';
+
+const demoTracks = [
+  { title: '3AM In Sheffield', tag: 'DEMO', src: '/audio/demo-1.mp3' },
+  { title: '凌晨四点', tag: 'DEMO', src: '/audio/demo-2.mp3' },
+  { title: '信号微弱', tag: 'DEMO', src: '/audio/demo-3.mp3' },
+  { title: '复印店', tag: 'DEMO', src: '/audio/demo-4.mp3' },
+];
+
+const sites = [
+  { title: 'Northwind Outfitters', domain: 'northwindoutfitters.com', tag: 'Fashion', tilt: -2.5 },
+  { title: 'Lumen Home Co.', domain: 'lumenhome.co', tag: 'Home Goods', tilt: 1.5 },
+  { title: 'Verdant Skincare', domain: 'verdantskin.com', tag: 'Beauty', tilt: -1.5 },
+  { title: 'Atlas Gear Supply', domain: 'atlasgearsupply.com', tag: 'Outdoor', tilt: 2 },
+  { title: 'Folio & Form', domain: 'folioandform.com', tag: 'Lifestyle', tilt: -2 },
+];
 
 export default function Home() {
   const [wechatOpen, setWechatOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [playingTrack, setPlayingTrack] = useState<number | null>(null);
+  const { displayed: titleDisplayed, done: titleDone } = useTypewriter('bubNosmoking', 90, 300);
+
+  const sitesSectionRef = useRef<HTMLDivElement>(null);
+  const sitesTrackRef = useRef<HTMLDivElement>(null);
+  const SITES_RELEASE = 240; // extra scroll after the last card, drives the page-turn recede
+  const [sitesMaxScroll, setSitesMaxScroll] = useState(0);
+  const [sitesProgress, setSitesProgress] = useState(0);
+  const [sitesRelease, setSitesRelease] = useState(0); // 0–1 within the release buffer
+  const [siteCardCenters, setSiteCardCenters] = useState<number[]>([]);
+  const [sitesViewportW, setSitesViewportW] = useState(0);
+
+  useEffect(() => {
+    function measure() {
+      if (!sitesTrackRef.current) return;
+      const trackWidth = sitesTrackRef.current.scrollWidth;
+      const viewportWidth = window.innerWidth;
+      setSitesMaxScroll(Math.max(0, trackWidth - viewportWidth));
+      setSitesViewportW(viewportWidth);
+      const centers = Array.from(sitesTrackRef.current.children)
+        .filter((el) => el instanceof HTMLElement && el.dataset.sitecard)
+        .map((el) => {
+          const h = el as HTMLElement;
+          return h.offsetLeft + h.offsetWidth / 2;
+        });
+      setSiteCardCenters(centers);
+    }
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
+
+  useEffect(() => {
+    function onScroll() {
+      const el = sitesSectionRef.current;
+      if (!el) return;
+      const rect = el.getBoundingClientRect();
+      const scrolled = -rect.top;
+      setSitesProgress(Math.min(Math.max(scrolled, 0), sitesMaxScroll));
+      setSitesRelease(Math.min(Math.max((scrolled - sitesMaxScroll) / SITES_RELEASE, 0), 1));
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [sitesMaxScroll]);
 
   return (
     <div className="min-h-screen bg-[#F9F9F7] text-[#111111] font-serif selection:bg-black selection:text-white">
@@ -51,6 +122,54 @@ export default function Home() {
             font-size: clamp(2.5rem, 9vw, 10rem);
             line-height: 1;
         }
+        .title-cursor {
+            display: inline-block;
+            width: 0.06em;
+            height: 0.85em;
+            background: #111111;
+            margin-left: 0.04em;
+            vertical-align: text-bottom;
+            animation: titleBlink 0.8s step-end infinite;
+        }
+        @keyframes titleBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .glitch-title {
+            cursor: default;
+        }
+        .glitch-title::before,
+        .glitch-title::after {
+            content: attr(data-text);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .glitch-title:hover::before {
+            opacity: 0.85;
+            color: #CC0000;
+            clip-path: polygon(0 8%, 100% 8%, 100% 34%, 0 34%);
+            animation: glitchTop 0.5s steps(2) infinite;
+        }
+        .glitch-title:hover::after {
+            opacity: 0.85;
+            color: #111111;
+            mix-blend-mode: difference;
+            clip-path: polygon(0 58%, 100% 58%, 100% 84%, 0 84%);
+            animation: glitchBottom 0.45s steps(2) infinite;
+        }
+        @keyframes glitchTop {
+            0%, 100% { transform: translate(-4px, 2px); }
+            50% { transform: translate(4px, -1px); }
+        }
+        @keyframes glitchBottom {
+            0%, 100% { transform: translate(4px, -2px); }
+            50% { transform: translate(-3px, 1px); }
+        }
         .drop-cap::first-letter {
             float: left;
             font-family: 'Playfair Display', serif;
@@ -79,42 +198,85 @@ export default function Home() {
 
       <Script src="https://cdn.tailwindcss.com" />
 
+      <ScrollProgress />
+
       {/* 导航栏 */}
       <nav className="sticky top-0 z-50 border-b border-black bg-[#F9F9F7] px-4 py-3 flex justify-between items-center">
         <div className="font-headline font-bold text-xl tracking-tight">BN.</div>
         <div className="hidden md:flex gap-6 font-mono-data text-xs uppercase tracking-widest items-center">
             <a href="#intro" className="hover:underline decoration-[#CC0000] underline-offset-4">Intro</a>
             <a href="#projects" className="hover:underline decoration-[#CC0000] underline-offset-4">Projects</a>
+            <a href="#sites" className="hover:underline decoration-[#CC0000] underline-offset-4">Sites</a>
             <a href="#lab" className="hover:underline decoration-[#CC0000] underline-offset-4">Lab</a>
+            <a href="#music" className="hover:underline decoration-[#CC0000] underline-offset-4">Music</a>
             <a href="/resume.pdf" download className="bg-black text-white px-2 py-1 hover:bg-[#CC0000] transition-colors flex items-center gap-1 group">
                 <FileText size={10} className="group-hover:animate-bounce" />
                 RESUME [PDF]
             </a>
         </div>
-        <button className="md:hidden">
-            <Menu className="w-6 h-6" />
+        <button
+            className="md:hidden relative z-50"
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-expanded={menuOpen}
+        >
+            {menuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </nav>
 
-      <div className="max-w-screen-xl mx-auto border-x border-black min-h-screen">
+      {/* 移动端菜单 */}
+      <AnimatePresence>
+        {menuOpen && (
+            <motion.div
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.2, ease: [0.22, 0.61, 0.36, 1] }}
+                className="md:hidden sticky top-[49px] z-40 bg-[#F9F9F7] border-b border-black flex flex-col font-mono-data text-sm uppercase tracking-widest"
+            >
+                <a href="#intro" onClick={() => setMenuOpen(false)} className="px-4 py-4 border-b border-black/10 hover:bg-black hover:text-white transition-colors">Intro</a>
+                <a href="#projects" onClick={() => setMenuOpen(false)} className="px-4 py-4 border-b border-black/10 hover:bg-black hover:text-white transition-colors">Projects</a>
+                <a href="#sites" onClick={() => setMenuOpen(false)} className="px-4 py-4 border-b border-black/10 hover:bg-black hover:text-white transition-colors">Sites</a>
+                <a href="#lab" onClick={() => setMenuOpen(false)} className="px-4 py-4 border-b border-black/10 hover:bg-black hover:text-white transition-colors">Lab</a>
+                <a href="#music" onClick={() => setMenuOpen(false)} className="px-4 py-4 border-b border-black/10 hover:bg-black hover:text-white transition-colors">Music</a>
+                <a
+                    href="/resume.pdf"
+                    download
+                    onClick={() => setMenuOpen(false)}
+                    className="px-4 py-4 bg-black text-white flex items-center gap-2"
+                >
+                    <FileText size={12} />
+                    RESUME [PDF]
+                </a>
+            </motion.div>
+        )}
+      </AnimatePresence>
+
+      <div className="max-w-screen-xl mx-auto border-x border-black min-h-screen relative lg:my-5">
+        <CropMarks />
 
         {/* Header */}
         <header className="border-b-4 border-black py-12 md:py-24 text-center overflow-hidden relative">
-            <div className="absolute top-4 left-0 w-full flex justify-between px-6 opacity-50 font-mono-data text-[10px] uppercase">
-                <span>Fig 1.1 — Portfolio</span>
-                <span>Est. 2026</span>
-            </div>
-            <h1 className="mega-text font-headline font-black tracking-tighter whitespace-nowrap px-4 mt-8">
-                bubNosmoking
-            </h1>
-            <p className="mt-6 font-mono-data text-sm md:text-base uppercase tracking-widest text-neutral-600">
-                Growth Operator &bull; Brand Builder &bull; AI-Powered Marketer
-            </p>
+            <Masthead />
+            <Reveal y={14} duration={0.6}>
+                <h1
+                    data-text="bubNosmoking"
+                    className={`mega-text font-headline font-black tracking-tighter whitespace-nowrap px-4 mt-8 relative inline-block ${titleDone ? 'glitch-title' : ''}`}
+                >
+                    {titleDisplayed}
+                    {!titleDone && <span className="title-cursor" />}
+                </h1>
+            </Reveal>
+            <Reveal y={10} index={1} duration={0.5}>
+                <p className="mt-6 font-mono-data text-sm md:text-base uppercase tracking-widest text-neutral-600">
+                    Growth Operator &bull; Brand Builder &bull; AI-Powered Marketer
+                </p>
+            </Reveal>
         </header>
 
         {/* Intro Section */}
         <section id="intro" className="grid grid-cols-1 md:grid-cols-12 border-b border-black">
-            <div className="md:col-span-4 border-b md:border-b-0 md:border-r border-black p-8 flex flex-col items-center justify-center bg-white">
+            <Reveal as="div" index={0} y={14} className="md:col-span-4 border-b md:border-b-0 md:border-r border-black p-8 flex flex-col items-center justify-center bg-white">
                 <div className="w-48 h-64 border border-black bg-neutral-100 flex items-center justify-center overflow-hidden mb-6 relative">
                     <img src="images/about-me-2.jpg" 
                          className="absolute inset-0 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-500" 
@@ -125,9 +287,9 @@ export default function Home() {
                     <h3 className="font-headline text-2xl font-bold">About Me</h3>
                     <p className="font-mono-data text-xs mt-2 text-neutral-500">BASED IN SHENZHEN</p>
                 </div>
-            </div>
+            </Reveal>
 
-            <div className="md:col-span-8 p-8 md:p-12 flex flex-col justify-center">
+            <Reveal as="div" index={1} y={14} className="md:col-span-8 p-8 md:p-12 flex flex-col justify-center">
                 <div className="font-mono-data text-xs uppercase tracking-widest mb-4 text-[#CC0000]">Editorial / 01</div>
                 <p className="drop-cap text-lg md:text-xl leading-relaxed text-justify mb-6">
                     你好，我是 bub。我做产品出海，做内容，跑增长。AI 出现之后，我开始用它重新做一遍我已经会的事——发现很多事情可以做得更好，也发现有些事情 AI 其实做不了。这个过程让我有很多想说的话。
@@ -189,7 +351,7 @@ export default function Home() {
                         </div>
                     </a>
                 </div>
-            </div>
+            </Reveal>
         </section>
 
         {/* Ticker Section */}
@@ -233,16 +395,16 @@ export default function Home() {
 
         {/* Stats Section */}
         <section id="stats" className="border-b border-black bg-white">
-            <div className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
+            <Reveal as="div" y={8} duration={0.4} className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
                 <h2 className="font-headline text-2xl font-bold uppercase tracking-tighter">Market Data: Technical Index</h2>
                 <div className="flex items-center gap-4">
                     <span className="hidden md:inline font-mono-data text-[10px] animate-pulse">● LIVE DATA FEED</span>
                     <span className="font-mono-data text-xs">VOL: 2026.02</span>
                 </div>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-3">
-    <div className="border-b md:border-b-0 md:border-r border-black">
+    <Reveal as="div" index={0} y={14} className="border-b md:border-b-0 md:border-r border-black">
         <div className="p-2 border-b border-black bg-neutral-100 font-mono-data text-[10px] font-bold uppercase tracking-widest text-center">
             Sector: Growth & Content Operations
         </div>
@@ -267,14 +429,14 @@ export default function Home() {
                 </tr>
                 <tr className="hover:bg-neutral-50">
                     <td className="p-2 border-r border-black font-bold">SEO / GEO</td>
-                    <td className="p-2 border-r border-black text-neutral-500">+++++++−</td>
+                    <td className="p-2 border-r border-black text-neutral-500">+++++++-</td>
                     <td className="p-2 text-right text-[#CC0000]">▲ 95.0</td>
                 </tr>
             </tbody>
         </table>
-    </div>
+    </Reveal>
 
-    <div className="border-b md:border-b-0 md:border-r border-black">
+    <Reveal as="div" index={1} y={14} className="border-b md:border-b-0 md:border-r border-black">
         <div className="p-2 border-b border-black bg-neutral-100 font-mono-data text-[10px] font-bold uppercase tracking-widest text-center">
             Sector: AI Tooling & Creation
         </div>
@@ -304,9 +466,9 @@ export default function Home() {
                 </tr>
             </tbody>
         </table>
-    </div>
+    </Reveal>
 
-    <div className="p-6 flex flex-col justify-between">
+    <Reveal as="div" index={2} y={14} className="p-6 flex flex-col justify-between">
         <div>
             <h4 className="font-headline font-bold text-lg mb-2 underline decoration-1 decoration-black">Analyst Note / 专家评级</h4>
             <p className="font-body text-xs text-justify leading-tight text-neutral-600">
@@ -325,7 +487,7 @@ export default function Home() {
                 </div>
             </div>
         </div>
-    </div>
+    </Reveal>
 </div>
 
             <div className="border-t border-black p-1 bg-neutral-50 overflow-hidden whitespace-nowrap">
@@ -338,12 +500,13 @@ export default function Home() {
 
         {/* Projects Section */}
         <section id="projects" className="border-b border-black">
-            <div className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
+            <Reveal as="div" y={8} duration={0.4} className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
     <h2 className="font-headline text-3xl font-bold uppercase">AI · Projects</h2>
                 <span className="font-mono-data text-xs">(2025 — 2026)</span>
-            </div>
+            </Reveal>
 
             <div className="grid grid-cols-1 md:grid-cols-2">
+                <Reveal as="div" index={0} y={18}>
                 <Link href="/projects/fitness-agent">
                     <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                         <div className="w-full h-48 border border-black mb-6 overflow-hidden relative group">
@@ -378,7 +541,9 @@ export default function Home() {
                         <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">VIEW CASE STUDY &rarr;</span>
                     </article>
                 </Link>
+                </Reveal>
 
+                <Reveal as="div" index={1} y={18}>
                 <Link href="/projects/overseas-case">
                 <article className="group border-b border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                     <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
@@ -408,7 +573,9 @@ export default function Home() {
                     <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">View Case Study &rarr;</span>
                 </article>
                 </Link>
+                </Reveal>
 
+                <Reveal as="div" index={2} y={18}>
                  <Link href="/projects/contentflow">
                  <article className="group border-b md:border-r border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                   <div className="w-full h-48 border border-black mb-6 overflow-hidden relative group">
@@ -441,8 +608,10 @@ export default function Home() {
                     <p className="font-body text-neutral-600 line-clamp-3 mb-4">用 AI 重构社媒运营工作流：从竞品监控、内容选题到多平台发布，将原本需要 3 人团队的工作压缩为单人可执行的半自动化流程。</p>
                     <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">View Case Study &rarr;</span>
                 </article>
-                </Link>  
+                </Link>
+                </Reveal>
 
+                <Reveal as="div" index={3} y={18}>
                 <Link href="/projects/campaign-decoder">
                 <article className="group border-b border-black p-8 hover-lift cursor-pointer bg-[#F9F9F7]">
                    <div className="w-full h-48 border border-black mb-6 overflow-hidden relative">
@@ -472,22 +641,99 @@ export default function Home() {
                     <span className="font-sans-ui text-xs font-bold uppercase tracking-widest group-hover:text-[#CC0000]">View Case Study &rarr;</span>
                 </article>
                 </Link>
+                </Reveal>
+            </div>
+        </section>
+
+        {/* Sites Section — pinned horizontal scroll, driven by vertical wheel/scroll */}
+        <section
+            id="sites"
+            ref={sitesSectionRef}
+            className="relative bg-[#F4F2EC]"
+            style={{ height: `calc(600px + ${sitesMaxScroll + SITES_RELEASE}px)` }}
+        >
+            <div
+                className="sticky top-0 h-[600px] overflow-hidden flex flex-col border-b-4 border-black"
+                style={{
+                    transform: `scale(${1 - 0.03 * sitesRelease}) translateY(${12 * sitesRelease}px)`,
+                    opacity: 1 - 0.25 * sitesRelease,
+                    willChange: 'transform, opacity',
+                }}
+            >
+                <div className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center shrink-0">
+                    <div>
+                        <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Sites / 出海建站</h2>
+                        <p className="font-mono-data text-[10px] text-white/30 mt-1 tracking-widest uppercase">Selected Storefronts &amp; Landing Pages</p>
+                    </div>
+                    <span className="font-mono-data text-[10px] text-white/20 italic hidden md:inline">keep scrolling &darr;</span>
+                </div>
+
+                <div className="flex-1 overflow-hidden relative flex items-center">
+                    <div
+                        ref={sitesTrackRef}
+                        className="flex items-center gap-16 md:gap-24 px-[6vw]"
+                        style={{ transform: `translateX(-${sitesProgress}px)`, willChange: 'transform' }}
+                    >
+                        {sites.map((site, i) => {
+                            // How close this card's center is to the viewport center → 1 straighten/enlarge, 0 idle
+                            const center = siteCardCenters[i];
+                            let focus = 0;
+                            if (center !== undefined && sitesViewportW > 0) {
+                                const dist = Math.abs(center - sitesProgress - sitesViewportW / 2);
+                                focus = Math.max(0, 1 - dist / 360);
+                            }
+                            return (
+                                <SiteCard
+                                    key={site.domain}
+                                    title={site.title}
+                                    domain={site.domain}
+                                    tag={site.tag}
+                                    index={i + 1}
+                                    tilt={site.tilt}
+                                    focus={focus}
+                                    href="https://www.constarfactory.com/"
+                                />
+                            );
+                        })}
+
+                        {/* End-of-section closing plate */}
+                        <div className="relative shrink-0 w-[60vw] sm:w-[300px] md:w-[340px] flex flex-col items-center justify-center gap-5 text-center px-8">
+                            <span className="font-mono-data text-[10px] tracking-[0.4em] text-black/30 uppercase">Sites &middot; Fin</span>
+                            <div className="flex items-center gap-3 w-full">
+                                <span className="flex-1 h-px bg-black/20" />
+                                <span className="font-headline text-2xl font-bold whitespace-nowrap" style={{ fontFamily: "'Playfair Display', serif" }}>本版完</span>
+                                <span className="flex-1 h-px bg-black/20" />
+                            </div>
+                            <span className="font-mono-data text-[10px] tracking-widest text-black/30 uppercase">End of Section &middot; More in Press</span>
+                        </div>
+
+                        {/* spacer so last card fully clears viewport — flex right-padding is excluded from scrollWidth */}
+                        <div className="shrink-0 w-[6vw]" />
+                    </div>
+                </div>
+
+                <div className="h-1 bg-black/10 shrink-0">
+                    <div
+                        className="h-full bg-[#CC0000] transition-[width] duration-75"
+                        style={{ width: sitesMaxScroll > 0 ? `${(sitesProgress / sitesMaxScroll) * 100}%` : '0%' }}
+                    />
+                </div>
             </div>
         </section>
 
 {/* Lab Section */}
 <section id="lab" className="border-b border-black bg-white">
-    <div className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
+    <Reveal as="div" y={8} duration={0.4} className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
     <div>
         <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Lab / 实验田</h2>
         <p className="font-mono-data text-[10px] text-white/30 mt-1 tracking-widest uppercase">Tools · Code · Design · Art</p>
     </div>
     <span className="font-mono-data text-[10px] text-white/20 italic">5 objects</span>
-</div>
+</Reveal>
 
     <div className="grid grid-cols-4 border-black">
 
-        <div className="col-span-2 row-span-2 border-r border-b border-black group overflow-hidden relative" style={{minHeight: 480}}>
+        <Reveal as="div" index={0} y={18} className="col-span-2 row-span-2 border-r border-b border-black group overflow-hidden relative" style={{minHeight: 480}}>
             <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
                 <span className="font-mono-data text-[9px] bg-[#CC0000] text-white px-2 py-0.5 tracking-widest uppercase">TOOL</span>
                 <span className="font-mono-data text-[9px] text-white/30 tracking-widest uppercase">01</span>
@@ -524,9 +770,9 @@ export default function Home() {
                 </a>
             </div>
             <div className="absolute inset-0 z-10 cursor-pointer" onClick={() => window.location.href='/projects/darkroom'} />
-        </div>
+        </Reveal>
 
-<div className="col-span-1 border-r border-b border-black group overflow-hidden relative bg-[#f0ede6]" style={{aspectRatio:"1/1"}}>
+<Reveal as="div" index={1} y={18} className="col-span-1 border-r border-b border-black group overflow-hidden relative bg-[#f0ede6]" style={{aspectRatio:"1/1"}}>
     <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
         <span className="font-mono-data text-[9px] bg-[#111111] text-white px-2 py-0.5 tracking-widest uppercase">CODE</span>
         <span className="font-mono-data text-[9px] text-black/25 tracking-widest uppercase">02</span>
@@ -559,9 +805,9 @@ export default function Home() {
             </a>
         </div>
     </div>
-</div>
+</Reveal>
 
-        <div className="col-span-1 border-b border-black group overflow-hidden relative" style={{aspectRatio:"1/1"}}>
+        <Reveal as="div" index={2} y={18} className="col-span-1 border-b border-black group overflow-hidden relative" style={{aspectRatio:"1/1"}}>
             <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
                 <span className="font-mono-data text-[9px] bg-[#CC0000] text-white px-2 py-0.5 tracking-widest uppercase">DESIGN</span>
                 <span className="font-mono-data text-[9px] text-white/50 tracking-widest uppercase">03</span>
@@ -575,9 +821,9 @@ export default function Home() {
                 <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>剪贴画</div>
                 <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Collage · Mixed Media</div>
             </div>
-        </div>
+        </Reveal>
 
-        <div className="col-span-1 border-r border-black group overflow-hidden relative" style={{aspectRatio:"4/3"}}>
+        <Reveal as="div" index={3} y={18} className="col-span-1 border-r border-black group overflow-hidden relative" style={{aspectRatio:"4/3"}}>
             <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
                 <span className="font-mono-data text-[9px] border border-black/30 text-black/40 px-2 py-0.5 tracking-widest uppercase bg-white/80">ART</span>
                 <span className="font-mono-data text-[9px] text-black/25 tracking-widest uppercase">04</span>
@@ -591,9 +837,9 @@ export default function Home() {
                 <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>装置艺术 I</div>
                 <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Installation · Photography</div>
             </div>
-        </div>
+        </Reveal>
 
-        <div className="col-span-1 border-black group overflow-hidden relative" style={{aspectRatio:"4/3"}}>
+        <Reveal as="div" index={4} y={18} className="col-span-1 border-black group overflow-hidden relative" style={{aspectRatio:"4/3"}}>
             <div className="absolute top-3 left-3 z-20 flex items-center gap-2">
                 <span className="font-mono-data text-[9px] border border-black/30 text-black/40 px-2 py-0.5 tracking-widest uppercase bg-white/80">ART</span>
                 <span className="font-mono-data text-[9px] text-black/25 tracking-widest uppercase">05</span>
@@ -607,70 +853,84 @@ export default function Home() {
                 <div className="font-headline text-sm font-bold" style={{fontFamily:"'Playfair Display',serif"}}>装置艺术 II</div>
                 <div className="font-mono-data text-[9px] text-black/40 tracking-widest uppercase">Installation · Photography</div>
             </div>
-        </div>
+        </Reveal>
 </div>
 </section>
 
+        {/* Music Section */}
+        <section id="music" className="border-b border-black bg-white">
+            <Reveal as="div" y={8} duration={0.4} className="p-4 border-b border-black bg-[#111111] text-[#F9F9F7] flex justify-between items-center">
+                <div>
+                    <h2 className="font-headline text-3xl font-bold uppercase tracking-tight">Music / Demo 带</h2>
+                    <p className="font-mono-data text-[10px] text-white/30 mt-1 tracking-widest uppercase">Unreleased &middot; Home Recordings</p>
+                </div>
+                <span className="font-mono-data text-[10px] text-white/20 italic">{demoTracks.length} tracks</span>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-black">
+                {demoTracks.map((track, i) => (
+                    <Reveal as="div" index={i} y={16} key={track.src}>
+                        <MusicCard
+                            index={i + 1}
+                            title={track.title}
+                            tag={track.tag}
+                            src={track.src}
+                            isActive={playingTrack === i}
+                            onToggle={() => setPlayingTrack(p => (p === i ? null : i))}
+                            onEnded={() => setPlayingTrack(p => (p === i ? null : p))}
+                        />
+                    </Reveal>
+                ))}
+            </div>
+        </section>
+
         {/* Works Section */}
         <section id="works" className="grid grid-cols-1 md:grid-cols-12 min-h-[400px]">
-            <div className="md:col-span-3 border-b md:border-b-0 md:border-r border-black p-8 bg-[#F9F9F7] text-[#111111]">
+            <Reveal as="div" index={0} y={14} className="md:col-span-3 border-b md:border-b-0 md:border-r border-black p-8 bg-[#F9F9F7] text-[#111111]">
     <h2 className="font-headline text-4xl font-bold mb-4">Works &<br/>Thoughts</h2>
     <p className="font-body text-sm text-neutral-600 mb-8">
         这里存档了我的文章&随笔。
     </p>
     <div className="w-8 h-1 bg-[#CC0000] mb-8"></div>
     <div className="font-mono-data text-xs uppercase tracking-widest text-black/40">
-        Last Update: <br/>Mar 13, 2026
+        Last Update: <br/>
+        {new Date(getLatestEssays(1)[0].date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
     </div>
-</div>
+</Reveal>
 
             <div className="md:col-span-9 bg-white">
-                <a href="/works/ai-journey" className="group flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-black hover:bg-neutral-100 transition-colors">
-                    <div className="mb-2 md:mb-0">
-                        <span className="font-mono-data text-xs text-[#CC0000] mr-2">ESSAY</span>
-                        <h4 className="font-headline text-xl font-bold inline group-hover:underline decoration-[#CC0000] underline-offset-4">
-                            我不是技术人，但我比大多数技术人更早想清楚了一件事
-                        </h4>
-                    </div>
-                    <span className="font-mono-data text-xs text-neutral-500">2026-03-10</span>
-                </a>
+                {getLatestEssays(3).map((essay, i) => (
+                    <Reveal as="div" index={i + 1} y={12} key={essay.slug}>
+                        <Link href={`/works/${essay.slug}`} className="group flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-black hover:bg-neutral-100 transition-colors">
+                            <div className="mb-2 md:mb-0">
+                                <span className="font-mono-data text-xs text-[#CC0000] mr-2">ESSAY</span>
+                                <h4 className="font-headline text-xl font-bold inline group-hover:underline decoration-[#CC0000] underline-offset-4">
+                                    {essay.title}
+                                </h4>
+                            </div>
+                            <span className="font-mono-data text-xs text-neutral-500">{essay.date}</span>
+                        </Link>
+                    </Reveal>
+                ))}
 
-                <a href="/works/prompt-skill" className="group flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-black hover:bg-neutral-100 transition-colors">
-                    <div className="mb-2 md:mb-0">
-                        <span className="font-mono-data text-xs text-[#CC0000] mr-2">ESSAY</span>
-                        <h4 className="font-headline text-xl font-bold inline group-hover:underline decoration-[#CC0000] underline-offset-4">
-                            你没在用 AI，你在让 AI 哄你——以及如何真正让它为你工作
-
-                        </h4>
-                    </div>
-                    <span className="font-mono-data text-xs text-neutral-500">2026-03-12</span>
-                </a>
-
-                <a href="/works/vibe-coding" className="group flex flex-col md:flex-row md:items-center justify-between p-6 border-b border-black hover:bg-neutral-100 transition-colors">
-                    <div className="mb-2 md:mb-0">
-                        <span className="font-mono-data text-xs text-[#CC0000] mr-2">ESSAY</span>
-                        <h4 className="font-headline text-xl font-bold inline group-hover:underline decoration-[#CC0000] underline-offset-4">
-                            Vibe Coding 六个月：它是真实的生产力，但门槛不在你以为的地方
-                        </h4>
-                    </div>
-                    <span className="font-mono-data text-xs text-neutral-500">2026-02-25</span>
-                </a>
-                
                 <div className="p-6 text-center">
-                    <button className="font-sans-ui text-sm font-bold uppercase tracking-widest border-b-2 border-black hover:bg-black hover:text-white transition-all pb-1">
+                    <Link href="/works" className="font-sans-ui text-sm font-bold uppercase tracking-widest border-b-2 border-black hover:bg-black hover:text-white transition-all pb-1">
                         View Archive
-                    </button>
+                    </Link>
                 </div>
             </div>
         </section>
 
         {/* Footer */}
-        <footer className="border-t-4 border-black p-8 md:p-12 bg-[#F9F9F7] grid grid-cols-1 md:grid-cols-2 gap-8">
+        <footer id="contact" className="border-t-4 border-black p-8 md:p-12 bg-[#F9F9F7] grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
                 <h2 className="font-headline text-2xl font-bold mb-4">bubNosmoking</h2>
                 <p className="font-mono-data text-xs text-neutral-500 uppercase tracking-widest max-w-xs">
                     Built by a growth operator who got tired of waiting for developers.<br/>Powered by Claude + Cursor + Next.js.
                 </p>
+                <div className="mt-6">
+                    <PrintCounter target={4128} digits={6} label="Press Run No." />
+                </div>
             </div>
             <div className="flex flex-col md:items-end justify-between">
                 <div className="flex gap-4 mb-4">
