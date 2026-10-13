@@ -366,7 +366,7 @@ export default function Home() {
             <div className="flex whitespace-nowrap overflow-hidden bg-white text-black w-full">
                 <div className="inline-block animate-ticker font-mono-data text-xs uppercase tracking-[0.2em] py-1">
                     <span className="mx-8 text-[#CC0000]">●</span>
-                    50篇技术文章 · 10个关键词进 Google 首页
+                    200篇技术文章 · 10个关键词进 Google 首页
                     <span className="mx-8 text-[#CC0000]">●</span>
                     SEO / GEO · Perplexity · ChatGPT Search
                     <span className="mx-8 text-[#CC0000]">●</span>
@@ -388,7 +388,7 @@ export default function Home() {
                     <span className="mx-8 text-[#CC0000]">●</span>
                     LLM / RAG / Agent · 能读 API 文档
                     <span className="mx-8 text-[#CC0000]">●</span>
-                    Content Evangelist · 深圳 · 可远程
+                    Overseas DTC Site Lead · 深圳 · 可远程
                 </div>
             </div>
         </section>
@@ -472,7 +472,7 @@ export default function Home() {
         <div>
             <h4 className="font-headline font-bold text-lg mb-2 underline decoration-1 decoration-black">Analyst Note / 专家评级</h4>
             <p className="font-body text-xs text-justify leading-tight text-neutral-600">
-                该候选人具备<span className="text-black font-bold">「真实业务经验 × AI 落地能力」</span>的稀缺复合背景。3年+ 海外内容营销经验覆盖独立站全链路，深度实践 GEO 优化与 LLM 内容工作流重构，能以开发者视角创作技术内容。对 RAG、Agent、API 集成等 GenAI 方向保持高密度关注，具备与工程团队同频沟通的能力。适合需要同时理解产品技术逻辑与全球内容分发的 Content Evangelist 岗位。
+                该候选人具备<span className="text-black font-bold">「真实业务经验 × AI 落地能力」</span>的稀缺复合背景。3年+ 海外内容营销经验覆盖独立站全链路，深度实践 GEO 优化与 LLM 内容工作流重构，能以开发者视角创作技术内容。对 RAG、Agent、API 集成等 GenAI 方向保持高密度关注，具备与工程团队同频沟通的能力。
             </p>
         </div>
         <div className="mt-6 pt-4 border-t border-black">
